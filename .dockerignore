@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+**/dist
+config
+data
+*.log
+.git
+.gitignore
+Dockerfile
+README.md
+scripts

@@ -1,0 +1,484 @@
+/**
+ * 番剧主页 + 放送日历的卡片样式（移植自 Vue 版 scoped scss 的视觉效果）。
+ * 仅覆盖 AntD 无法表达的 hover 叠层/角标/骨架屏等部分。
+ */
+
+/* ---- 番剧卡片网格 ---- */
+.bgm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.bgm-card-wrap {
+  position: relative;
+}
+
+.bgm-card {
+  cursor: pointer;
+  user-select: none;
+}
+
+.bgm-poster {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bgm-card:hover .bgm-poster,
+.bgm-card:focus-visible .bgm-poster {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.bgm-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bgm-poster-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 28px;
+}
+
+/* needs-review 海报警告描边 */
+.bgm-poster--review {
+  box-shadow: 0 0 0 2px #faad14, 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.bgm-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  transition: opacity 0.2s ease;
+}
+
+.bgm-card:hover .bgm-overlay,
+.bgm-card:focus-visible .bgm-overlay {
+  opacity: 1;
+}
+
+.bgm-overlay-edit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.bgm-overlay-tags {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.bgm-overlay-tag {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.bgm-title {
+  margin-top: 8px;
+  padding: 0 2px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 全部规则被禁用（deleted）时整卡灰显 */
+.bgm-grayscale {
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+
+/* 组角标（多规则计数 / needs-review 警告） */
+.bgm-group-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #1890ff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.4);
+}
+
+.bgm-group-badge--warning {
+  background: #fbbf24;
+  border: 2px solid #1890ff;
+  color: #7c5300;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.5);
+}
+
+.bgm-archived-badge {
+  position: absolute;
+  bottom: 36px;
+  left: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 10px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 归档分区半透明 */
+.bgm-archived-grid {
+  opacity: 0.75;
+}
+
+/* ---- 未匹配种子（Others）卡片 ---- */
+.bgm-others-poster {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.04);
+  border: 2px dashed rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bgm-card:hover .bgm-others-poster {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.bgm-others-icon {
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.bgm-others-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 10;
+}
+
+/* ---- 骨架屏 ---- */
+.bgm-skeleton-poster {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 25%, rgba(0, 0, 0, 0.12) 50%, rgba(0, 0, 0, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: bgm-shimmer 1.5s ease-in-out infinite;
+}
+
+.bgm-skeleton-title {
+  height: 16px;
+  margin-top: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 25%, rgba(0, 0, 0, 0.12) 50%, rgba(0, 0, 0, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: bgm-shimmer 1.5s ease-in-out infinite;
+  animation-delay: 0.1s;
+}
+
+@keyframes bgm-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ---- 规则列表弹窗 ---- */
+.bgm-rule-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bgm-rule-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.bgm-rule-item + .bgm-rule-item {
+  margin-top: 4px;
+}
+
+.bgm-rule-item--disabled {
+  opacity: 0.5;
+}
+
+.bgm-rule-item--warning {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 100%);
+  border-left: 3px solid #fbbf24;
+}
+
+/* ---- 放送日历 ---- */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.cal-column {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+}
+
+.cal-column--today {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 1px rgba(24, 144, 255, 0.2);
+}
+
+.cal-day-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cal-empty-day {
+  padding: 12px 4px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+/* 日历卡片 */
+.cal-card-wrap {
+  position: relative;
+}
+
+.cal-card {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.cal-card--pinned {
+  box-shadow: 0 0 0 1.5px #1890ff;
+}
+
+.cal-card-poster {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.cal-card-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cal-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.cal-card-placeholder-title {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.cal-card-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  transition: opacity 0.2s ease;
+}
+
+.cal-card:hover .cal-card-overlay {
+  opacity: 1;
+}
+
+.cal-card-overlay-title {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cal-card-overlay-tags {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.cal-card-pin {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1890ff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cal-unpin-btn {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  padding: 0;
+}
+
+.cal-card-wrap:hover .cal-unpin-btn {
+  opacity: 1;
+}
+
+.cal-unknown-section {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.cal-unknown-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* 移动端：卡片横向排布 */
+.cal-mobile-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+/* ---- 编辑弹窗 ---- */
+.bgm-edit-poster {
+  width: 80px;
+  height: 112px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.bgm-edit-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgm-skeleton-poster,
+  .bgm-skeleton-title {
+    animation: none;
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@ab/webui",
+  "version": "3.3.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ab/types": "workspace:*",
+    "@ant-design/icons": "^6.3.4",
+    "@simplewebauthn/browser": "^14.0.0",
+    "antd": "^5.24.0",
+    "axios": "^1.7.0",
+    "dayjs": "^1.11.13",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0"
+  }
+}

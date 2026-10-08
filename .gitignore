@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output (any level)
+dist/
+*.tsbuildinfo
+
+# Runtime generated data: config files, sqlite db, posters, logs
+config/
+data/
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Test / coverage
+coverage/
+
+# Cache
+.cache/
+.turbo/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

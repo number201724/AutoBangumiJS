@@ -1,0 +1,23 @@
+{
+  "name": "autobangumi-node",
+  "version": "3.3.6",
+  "private": true,
+  "license": "BSD-2-Clause",
+  "description": "Auto_Bangumi Node.js rewrite (1:1 port of the Python backend, React webui)",
+  "scripts": {
+    "dev:backend": "pnpm --filter @ab/backend dev",
+    "dev:webui": "pnpm --filter @ab/webui dev",
+    "build": "pnpm -r build && node scripts/assemble-dist.mjs",
+    "typecheck": "pnpm -r typecheck",
+    "start": "node dist/main.js",
+    "smoke": "./scripts/smoke.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
+}

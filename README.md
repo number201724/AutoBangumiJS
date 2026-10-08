@@ -38,6 +38,7 @@ pnpm build
 | 数据库（13 表 + 24 个表驱动迁移 + 全部仓储） | ✅ |
 | 鉴权（Cookie 会话 / API&MCP token / WebAuthn Passkey / IP 白名单） | ✅ |
 | 标题解析（classic + tokenizer 双引擎，与 Python 96/96 对拍一致） | ✅ |
+| ANi 专用解析器（api.ani.rip 源专属：精确匹配规则、季数/罗马数字/中文数字季标记、特別篇识别） | ✅ |
 | TMDB / Mikan / bgm.tv 放送表 / 偏移检测 | ✅ |
 | LLM 解析（openai/anthropic/gemini + 国产预设 + 订阅授权流程） | ✅（插件安装器二期） |
 | 下载器（qBittorrent 4.x/5.x、aria2、mock；凭据闩锁；单飞登录） | ✅ |

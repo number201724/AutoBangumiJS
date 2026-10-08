@@ -3,6 +3,8 @@
 [Auto_Bangumi](https://github.com/EstrellaXD/Auto_Bangumi) v3.3.6 的 Node.js 1:1 重构版：
 后端 Python/FastAPI → **NestJS + Drizzle ORM (better-sqlite3)**，前端 Vue3 → **React 18 + Ant Design 5**。
 
+> 本仓库的全部重构代码由 **Kimi K3** 模型（Moonshot AI）驱动完成。
+
 ## 目录结构
 
 ```
